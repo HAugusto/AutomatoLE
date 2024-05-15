@@ -19,38 +19,38 @@ Node* defaultNode(){
     return node;
 }
 
+// Getters
+Node* getPrevious(Node* node){
+    return node->previous;
+}
+
+Node* getNext(Node* node){
+    return node->next;
+}
+
+Data* getData(Node* node){
+    return node->data;
+}
+
+int getIndex(Node* node){
+    return node->index;
+}
+
 void printNode(Node* node){
     printf("\nID:\t\t%d", node->index);
     printf("\nData:\t\t%s", node->data);
     
     printf("\nPrevious:\t");
-    if(node->previous != NULL && node->previous->index != node->index){
+    if(node->previous){
         printf("%d", node->previous->index);
     } else {
-        printf("%d (HIMSELF)", node->previous->index);
+        printf("%s", node->previous);
     }
 
     printf("\nNext:\t\t");
-    if(node->next != NULL && node->next->index != node->index){
+    if(node->next){
         printf("%d", node->next->index);
     } else {
-        printf("%d (HIMSELF)", node->next->index);
+        printf("%s", node->next);
     }
-}
-
-// Getters
-int getIndex(Node* node){
-    return node->index;
-}
-
-void* getData(Node* node){
-    return node->data;
-}
-
-void* getPrevious(Node* node){
-    return node->previous;
-}
-
-void* getNext(Node* node){
-    return node->next;
 }

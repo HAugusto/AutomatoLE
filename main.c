@@ -14,19 +14,12 @@ int main(){
     // char filename[] = "text/filename.txt";
     // readfile(filename);
     
-    // Pair* pair = defaultPair();
-    // pair = createPair('{', 3);
-    // printPair(pair);
+    List* list = defaultList();
+    pushList(list, "teste");
+    pushList(list, "abc");
+    pushList(list, 34);
+    pushList(list, 4);
 
-    // List* list = defaultList();
-    // pushList(list, "teste");
-    // pushList(list, "teste2");    
-    // pushList(list, "teste3");    
-    
-    // printNode(list->start);
-    Node* node = defaultNode();
-    
-    printf("%s", node);
-    
+    printList(list);
     return 0;
 }

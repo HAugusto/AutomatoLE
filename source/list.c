@@ -23,63 +23,64 @@ List* defaultList(){
 
 Node* pushList(List* list, void* data){
     // Verifica se a lista atingiu o limite máximo
-    if(list->count_nodes < MAX_LENGTH){
-        // Cria um novo nó alocando a memória necessária através de Node
-        Node* newNode = (Node*)malloc(sizeof(Node));
-        
-        // Atribuição de valores
-        newNode->data = data;
-
-        // Verifica se não há um elemento inicial na lista
-        if(list->start == NULL){
-            list->start = list->end = newNode;
-            newNode->previous = newNode;
-        }
-        if(list->end != NULL) {
-            newNode->index = getListLength(list) + 1;
-            newNode->previous = list->end;
-            newNode->next = newNode;
-            list->end->next = newNode;
-        }
-
-        list->end = newNode;
-        list->count_nodes++;
-    } else {
-        printf("Erro: não é possível inserir mais itens na fila");
+    if(list->count_nodes > MAX_LENGTH){
+        printf("Erro: não é possível inserir mais itens na lista");
         return NULL;
     }
 
-    return list;
+    // Cria um novo nó alocando a memória necessária através de Node
+    Node* node = defaultNode();
+
+    // Atribuição de valores
+    node->data = data;
+
+    // Verifica se não há um elemento inicial já na lista
+    if(list->start == NULL){
+        list->start = node;
+    } else {
+        node->index = getLength(list);
+        node->previous = list->end;
+        list->end->next = node;
+    }
+
+    list->end = node;
+    list->count_nodes++;
+    
+    return node;
 }
 
 Node* popList(List* list){
-    if(isEmpyt(list)){
+    if(getIsEmpty(list)){
         printf("Erro: a fila está vazia...");
         return NULL;
     }
 
     Node* node = node->next;
+    
     list->start = node;
     list->count_nodes--;
-
-    return node;  
+    
+    return node;
 }
 
+
 // Getters
-Node* getStart(const List* list){
+Node* getStart(List* list){
     return list->start;
 }
 
-Node* getEnd(const List* list){
+Node* getEnd(List* list){
     return list->end;
 }
 
-Node* getPosition(const List* list, int position){
+Node* getPosition(List* list, int position){
     if(position < 0 || position > getLength(list)){
+        printf("Erro: posição inválida...");
         return NULL;
     }
     
     Node* current = list->start;
+    
     for(int i = 0; i < position; i++){
         if(current == NULL) return NULL;
         current = current->next;
@@ -88,7 +89,7 @@ Node* getPosition(const List* list, int position){
     return current;
 }
 
-int getLength(const List* list){
+int getLength(List* list){
     return list->count_nodes;
 }
 
@@ -96,3 +97,7 @@ bool getIsEmpty(List* list){
     return (list->start == NULL);
 }
 
+void printList(List* list){
+    Node* node = list->start;
+    for(node; node != NULL && node->next != node; node = node->next) printNode(node);
+}
