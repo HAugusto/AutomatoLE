@@ -2,9 +2,11 @@
 #define LIST_H
 
 #include <stdbool.h>
-#define MAX_LENGTH 5
+#define MAX_LENGTH 9999
 
 typedef struct Node Node;
+typedef struct Data Data;
+typedef struct Pair Pair;
 
 typedef struct List {
     struct Node*    start;
@@ -17,13 +19,14 @@ typedef struct List {
 
 // Inicializador padrão
 List*   defaultList ();
-Node*   pushList    (List* list, void* data);
+Node*   pushList    (List* list, Pair* data);
 Node*   popList     (List* list);
 Node*   getStart    (List* list);
 Node*   getEnd      (List* list);
 Node*   getPosition (List* list, int position);
 int     getLength   (List* list);
 bool    getIsEmpty  (List* list);
-void    printList   (List* list);
+void    freeList    (List* list);
+void    printList   (List* list, bool detailed);
 
 #endif /* LIST_H */

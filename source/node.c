@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "../headers/node.h"
+#include "../headers/pair.h"
+#include "../headers/data.h"
 
 Node* defaultNode(){
     Node* node = (Node*)malloc(sizeof(Node));
@@ -20,25 +22,45 @@ Node* defaultNode(){
 }
 
 // Getters
-Node* getPrevious(Node* node){
-    return node->previous;
+Node* getNodePrevious(Node* node){
+    if(node->previous != NULL) return node->previous;
+    return NULL;
 }
 
-Node* getNext(Node* node){
-    return node->next;
+Node* getNodeNext(Node* node){
+    if(node->next != NULL) return node->next;
+    return NULL;
 }
 
-Data* getData(Node* node){
-    return node->data;
+
+int getNodeIndex(Node* node){
+    if(node != NULL) return node->index;
+    return 0;
 }
 
-int getIndex(Node* node){
-    return node->index;
+void freeNode(Node* node){
+    if(node->data != NULL){
+        free(node->data);
+        node->data = NULL;
+    }
+
+    if(node->previous != NULL){
+        free(node->previous);
+        node->previous = NULL;
+    }
+
+    if(node->next != NULL){
+        free(node->next);
+        node->next = NULL;
+    }
+    
+    free(node);
 }
 
 void printNode(Node* node){
-    printf("\nID:\t\t%d", node->index);
-    printf("\nData:\t\t%s", node->data);
+    printf("\n\nID:\t\t%d", node->index);
+    printf("\nData:\t\t");
+    printPair(node->data);
     
     printf("\nPrevious:\t");
     if(node->previous){

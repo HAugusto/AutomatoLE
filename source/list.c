@@ -3,8 +3,9 @@
 #include <stdbool.h>
 #include "../headers/list.h"
 #include "../headers/node.h"
+#include "../headers/pair.h"
 
-#define MAX_LENGTH 5
+#define MAX_LENGTH 9999
 
 // Inicializador padrão
 List* defaultList(){
@@ -21,7 +22,7 @@ List* defaultList(){
     return list;
 }
 
-Node* pushList(List* list, void* data){
+Node* pushList(List* list, Pair* data){
     // Verifica se a lista atingiu o limite máximo
     if(list->count_nodes > MAX_LENGTH){
         printf("Erro: não é possível inserir mais itens na lista");
@@ -50,17 +51,23 @@ Node* pushList(List* list, void* data){
 }
 
 Node* popList(List* list){
+
     if(getIsEmpty(list)){
         printf("Erro: a fila está vazia...");
         return NULL;
     }
 
-    Node* node = node->next;
+    if(list->count_nodes > 1){
+        list->end = list->end->previous;
+        freeNode(list->end->next);
+        list->end->next = NULL;
+    } else {
+        freeNode(list->start);
+        list->start = list->end = NULL;
+    }
     
-    list->start = node;
     list->count_nodes--;
-    
-    return node;
+    return list->end;
 }
 
 
@@ -94,10 +101,34 @@ int getLength(List* list){
 }
 
 bool getIsEmpty(List* list){
-    return (list->start == NULL);
+    if(list->start == NULL && list->end == NULL) return true;
+    return false;
 }
 
-void printList(List* list){
+void freeList(List* list){
+    if(list->start != NULL) {
+        Node* node = list->end;
+        for(node; list->start != NULL; node->previous){
+            freeNode(node);
+            printList(list, false);
+        }
+    }
+    
+    free(list);
+}
+
+void printList(List* list, bool detailed){
+    if(getIsEmpty(list)){
+        printf("Erro: a lista está vazia...");
+        exit(EXIT_FAILURE);
+    }
+
+    if((void*)detailed == NULL) detailed = false;
+
     Node* node = list->start;
-    for(node; node != NULL && node->next != node; node = node->next) printNode(node);
+    for(node; node != NULL && node->next != node; node = node->next){
+        if(detailed == true) printNode(node);
+        printPair(node->data);
+        printf(", ");
+    }
 }

@@ -1,7 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <locale.h>
+#include "list.h"
 #include "pair.h"
+#include "node.h"
+#include "../functions/clearBuffer.c"
 
 /*
     Função: readfile
@@ -9,12 +13,8 @@
     retornando caractere por caractere, individualmente    
 */
 
-typedef enum {
-    false, true
-} bool;
-
 // Inicializa uma cadeia de caracteres definidos como 'tokens' no sistema
-const char tokens[] = {'M', ' ', '=', '{', '}', '(', ')'};
+const char tokens[] = {'{', '}', '(', ')'};
 
 int *readfile(char *filename){
     // Define a linguagem do sistema para Português, permitindo acentuações
@@ -35,35 +35,32 @@ int *readfile(char *filename){
         printf("Nenhum arquivo válido encontrado...\n");
         exit(EXIT_FAILURE);
     }
-    
+
+    List* list = defaultList();
+    List* tempList = defaultList();
+
     // Inicializa um loop 'while' percorrendo toda a cadeia de entrada do usuário, enquanto não for nulo
     // Através da variável character, coleta o dado da posição em que se encontra
-    while((character = fgetc(file)) != EOF) {
-        bool checker = true;
-        
+    for(int i = 0;(character = fgetc(file)) != EOF; i++) {
         // Inicializa um loop 'for' percorrendo o vetor tokens, com a finalidade de identificar com caracteres comuns
-        for(int i = 0; i < (sizeof(tokens)/sizeof(tokens[0])); i++){
+        for(int j = 0; j < (sizeof(tokens)/sizeof(tokens[0])); j++){
             // Se o caracter for encontrado nos tokens, então realiza a verificação se ele se trata de um '{' ou '}', para controle
-            if(character == tokens[i]){
-                if(character == tokens[3]){
-                    // Cria par(valor, posição)
-                    count_tokens++;
-                    checker_tokens++;
-                    checker != checker;
-                } else if(character == tokens[4]){
-                    checker_tokens--;
-                    checker != checker;
-                }
-            }
-        }
+            if(character == tokens[j]){
+                pushList(list, defaultCreator(character, i));
 
-        if(checker && checker == 0){
-            printf("%c", character);
-        } else {
-            printf("");
+                if(character == tokens[0] || character == tokens[2]) pushList(tempList, defaultCreator(character, i));
+                if(character == tokens[1] || character == tokens[3]) popList(tempList);
+            }
         }
     }
 
+    if(tempList->start != NULL && tempList->end != NULL){
+        printf("\nA formatação do arquivo de entrada está incorreta...");
+        exit(EXIT_FAILURE);
+    }
+    printList(list, false);
+    // freeList(list);
+    
     fclose(file);
     exit(EXIT_SUCCESS);
 }
