@@ -59,10 +59,12 @@ Node* popList(List* list){
 
     if(list->count_nodes > 1){
         list->end = list->end->previous;
-        freeNode(list->end->next);
+        freePair(list->end->next->data);
+        free(list->end->next);
         list->end->next = NULL;
     } else {
-        freeNode(list->start);
+        freePair(list->start->data);
+        free(list->start);
         list->start = list->end = NULL;
     }
     

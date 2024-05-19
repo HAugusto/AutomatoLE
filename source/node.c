@@ -45,12 +45,12 @@ void freeNode(Node* node){
     }
 
     if(node->previous != NULL){
-        free(node->previous);
+        freeNode(node->previous);
         node->previous = NULL;
     }
 
     if(node->next != NULL){
-        free(node->next);
+        freeNode(node->next);
         node->next = NULL;
     }
     
