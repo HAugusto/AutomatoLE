@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <locale.h>
+#include <stddef.h>
+#include <string.h>
 #include "list.h"
 #include "pair.h"
 #include "node.h"
@@ -46,10 +48,31 @@ int *readfile(char *filename){
         for(int j = 0; j < (sizeof(tokens)/sizeof(tokens[0])); j++){
             // Se o caracter for encontrado nos tokens, então realiza a verificação se ele se trata de um '{' ou '}', para controle
             if(character == tokens[j]){
-                pushList(list, defaultCreator(character, i));
+                Pair* pair = defaultCreator(character, i);
+                
+                // Insere o par na lista, através de um nó próprio
+                pushList(list, pair);
+                
+                // token[0] = '{' e token[2] = '('
+                if(character == tokens[0] || character == tokens[2]){
+                    pushList(tempList, defaultCreator(character, i));
+                }
 
-                if(character == tokens[0] || character == tokens[2]) pushList(tempList, defaultCreator(character, i));
-                if(character == tokens[1] || character == tokens[3]) popList(tempList);
+                // token[1] = '}' e token[3] = ')'
+                if(character == tokens[1] || character == tokens[3]){
+                    // Coleta o último dado na lista temporária
+                    Node* tempNode = getListNode(list, tempList->end);
+                    // printPair(tempPair); // ('{', 4)
+
+                    ((Pair*)tempNode->data)->next = list->end;
+                    ((Pair*)list->end->data)->previous = tempNode;
+                    // printNode(getListNode(list, ((Pair*)tempNode->data)));
+                    // printNode(tempPair->next->previous);
+                    // printNode(getListNode(list, getListNode(list, ((Node*)tempPair))));
+                    // ((Pair*)list->end->data)->previous = getListNode(list, tempPair);
+                    // printNode(tempPair->first);
+                    popList(tempList);
+                }
             }
         }
     }
@@ -58,7 +81,9 @@ int *readfile(char *filename){
         printf("\nA formatação do arquivo de entrada está incorreta...");
         exit(EXIT_FAILURE);
     }
+
     printList(list, false);
+    printNode(getListNode(list, ((Pair*)list->start->next->data)->next->previous));
     // freeList(list);
     
     fclose(file);

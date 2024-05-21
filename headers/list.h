@@ -19,14 +19,15 @@ typedef struct List {
 
 // Inicializador padrão
 List*   defaultList ();
-Node*   pushList    (List* list, Pair* data);
-Node*   popList     (List* list);
-Node*   getStart    (List* list);
-Node*   getEnd      (List* list);
-Node*   getPosition (List* list, int position);
-int     getLength   (List* list);
-bool    getIsEmpty  (List* list);
-void    freeList    (List* list);
-void    printList   (List* list, bool detailed);
+Node*   pushList        (List* list, void* data);
+Node*   popList         (List* list);
+Node*   getStart        (List* list);
+Node*   getEnd          (List* list);
+Node*   getListPosition (List* list, int position);
+Node*   getListNode     (List* list, Node* node);
+int     getLength       (List* list);
+bool    getIsEmpty      (List* list);
+void    freeList        (List* list);
+void    printList       (List* list, bool detailed);
 
 #endif /* LIST_H */

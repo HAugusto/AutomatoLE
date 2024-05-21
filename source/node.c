@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include "../headers/node.h"
 #include "../headers/pair.h"
 #include "../headers/data.h"
@@ -38,12 +39,12 @@ int getNodeIndex(Node* node){
     return 0;
 }
 
-void freeNode(Node* node){
-    if(node->data != NULL){
-        free(node->data);
-        node->data = NULL;
-    }
+void* getNodeData(Node* node){
+    if(node->data != NULL) return node->data;
+    return NULL;
+}
 
+void freeNode(Node* node){
     if(node->previous != NULL){
         freeNode(node->previous);
         node->previous = NULL;
@@ -54,13 +55,18 @@ void freeNode(Node* node){
         node->next = NULL;
     }
     
+    if(node->data != NULL){
+        free(node->data);
+        node->data = NULL;
+    }
+    
     free(node);
 }
 
 void printNode(Node* node){
     printf("\n\nID:\t\t%d", node->index);
     printf("\nData:\t\t");
-    printPair(node->data);
+    printPair(node->data, false);
     
     printf("\nPrevious:\t");
     if(node->previous){

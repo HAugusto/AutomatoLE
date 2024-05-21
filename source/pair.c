@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include "../headers/pair.h"
 #include "../headers/data.h"
 #include "../headers/node.h"
@@ -14,11 +15,12 @@ Pair* defaultPair(){
     
     pair->first = pair->second = NULL;
     pair->previous = pair->next = NULL;
+    pair->index = 0;
 
     return pair;
 }
 
-Pair* createPair(struct Data* first, struct Data* second){
+Pair* createPair(void* first, void* second){
     Pair* pair = (Pair*)malloc(sizeof(Pair));
 
     if(pair == NULL){
@@ -42,7 +44,7 @@ Pair* defaultCreator(char data, int position){
     Data* data1 = charData(x);
     Data* data2 = intData(y);
 
-    return createPair(data1, data2);
+    return createPair(x, y);
 }
 
 // Getters
@@ -99,6 +101,14 @@ void freePair(Pair* pair) {
     free(pair);
 }
 
-void printPair(Pair* pair){
-    printf("('%c', %d)", *(char*)pair->first->data, *(int*)pair->second->data);
+void printPair(Pair* pair, bool detailed){
+    if(detailed == false) printf("('%c', %d)", *(char*)pair->first, *(int*)pair->second);
+    else {
+        printf("\n1: \t\t'%c'", *(char*)pair->first);
+        printf("\n2: \t\t%d", *(int*)pair->second);
+        
+        printf("\nNext: \t\t");
+        printf("%d", getNodeIndex(pair->next));
+        printf("\n============");
+    }
 }

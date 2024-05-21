@@ -22,7 +22,7 @@ List* defaultList(){
     return list;
 }
 
-Node* pushList(List* list, Pair* data){
+Node* pushList(List* list, void* data){
     // Verifica se a lista atingiu o limite máximo
     if(list->count_nodes > MAX_LENGTH){
         printf("Erro: não é possível inserir mais itens na lista");
@@ -51,7 +51,6 @@ Node* pushList(List* list, Pair* data){
 }
 
 Node* popList(List* list){
-
     if(getIsEmpty(list)){
         printf("Erro: a fila está vazia...");
         return NULL;
@@ -59,11 +58,11 @@ Node* popList(List* list){
 
     if(list->count_nodes > 1){
         list->end = list->end->previous;
-        freePair(list->end->next->data);
+        // freePair(list->end->next->data);
         free(list->end->next);
         list->end->next = NULL;
     } else {
-        freePair(list->start->data);
+        // freePair(list->start->data);
         free(list->start);
         list->start = list->end = NULL;
     }
@@ -82,7 +81,7 @@ Node* getEnd(List* list){
     return list->end;
 }
 
-Node* getPosition(List* list, int position){
+Node* getListPosition(List* list, int position){
     if(position < 0 || position > getLength(list)){
         printf("Erro: posição inválida...");
         return NULL;
@@ -96,6 +95,12 @@ Node* getPosition(List* list, int position){
     }
 
     return current;
+}
+
+Node* getListNode(List* list, Node* node){  
+    Node* current = list->start;
+    for(current; current->index < getLength(list); current = current->next) if(*(char*)((Pair*)current->data)->first == *(char*)((Pair*)node->data)->first && *(int*)((Pair*)current->data)->second == *(int*)((Pair*)node->data)->second) return current;
+    return NULL;
 }
 
 int getLength(List* list){
@@ -130,7 +135,8 @@ void printList(List* list, bool detailed){
     Node* node = list->start;
     for(node; node != NULL && node->next != node; node = node->next){
         if(detailed == true) printNode(node);
-        printPair(node->data);
+        printf("\n");
+        printPair(node->data, detailed);
         printf(", ");
     }
 }
