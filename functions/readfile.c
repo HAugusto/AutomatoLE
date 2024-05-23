@@ -4,10 +4,11 @@
 #include <locale.h>
 #include <stddef.h>
 #include <string.h>
-#include "list.h"
-#include "pair.h"
-#include "node.h"
-#include "../functions/clearBuffer.c"
+#include "../headers/list.h"
+#include "../headers/pair.h"
+#include "../headers/node.h"
+#include "clearBuffer.c"
+#include "classifier.c"
 
 /*
     Função: readfile
@@ -17,7 +18,7 @@
 
 // Inicializa uma cadeia de caracteres definidos como 'tokens' no sistema
 const char tokens[] = {'{', '}', '(', ')', 'q', '='};
-const char ignore[] = {' '};
+const char ignore[] = {' ', ','};
 
 List* readfile(char *filename){
     // Define a linguagem do sistema para Português, permitindo acentuações
@@ -105,43 +106,39 @@ List* readfile(char *filename){
 
             // Realiza a cópia do valor
             Pair* tempValue = createPair(createPair(state->first, ((Pair*)temp->start->data)->first), state->second);
-            // printf("%c%c", *(char*)tempValue->first, *(char*)((Pair*)temp->start->data)->first);
-            // strcpy(tempValue->first, character);
-            // strcpy(tempValue->second, (char*)((Pair*)temp->start->data)->first);
+
             printf("(%c%c, %d)", *(char*)((Pair*)tempValue->first)->first, *(char*)((Pair*)tempValue->first)->second, *(int*)tempValue->second);
-            pushList(tempList2, tempValue);
 
             // Limpa a lista
             for(int k = 0; k < getLength(temp); k++) popList(temp);
+            
+            // if(character == ','){
+            //     while(character != tokens[1] && character != tokens [3] && character != tokens [4] && character != EOF){
+            //         // Coleta o próximo caracter da cadeia de entrada
+            //         character = fgetc(file);
+            //         i++;
+            //         printf("\nChar:%c, %d", character, i);
+            //     }
+
+            //     // for(character; character != tokens[1] && character != tokens[3] && character != EOF; i++){
+            //     //     if(character != " " || character != tokens[4]){
+            //     //         // Coleta o próximo caracter da cadeia de entrada
+            //     //         // dataPair = createPair(character, i);
+            //     //         character = fgetc(file);
+            //     //         printf("\nChar:%c, %d", character, i);
+            //     //     }
+            //     // }
+            // }
+
+
+            pushList(list, tempValue);
+
             free(temp);
 
-            // pushList(tempList2, createPair(tempValue, *(int*)state->second));
-            // printList(tempList2, false);
-
-            // if(state != NULL) free(state);
+            if(state != NULL) free(state);
             if(pair_state != NULL) free(pair_state);
 
             goto start;
-
-            // for(i; character != ',' && character != tokens[1] && character != tokens[3] && character != EOF; i++){         
-            //     printf("%c", character);
-            //     character = fgetc(file);
-            //     printf("\nI: %d", i);
-                
-            //     // Insere o caracter na lista
-            //     // pushList(tempList2, pair);
-
-            //     // if(pair != ',') i++;
-
-            //     // Pair* pair2 = createPair(nextCharacter, i);
-                
-            //     // Pair* pair = createPair(str, &nextCharacter);
-
-            //     // printf("(%c%c)", ((char*)pair->first)[0], ((char*)pair->first)[1]);
-            //     // pushList(tempList, pair);            
-            //     // // Insere o par na lista, através de um nó próprio
-            //     // pushList(list, pair);
-            // }
         }
     }
     // Libera memória da lista temporária
@@ -156,8 +153,8 @@ List* readfile(char *filename){
     // printNode(getListPosition(list, 5));
     // printNode(getListNode(list, ((Pair*)getListPosition(list, 5)->data)->next));
     printList(list, false);
-    printList(tempList, false);
-
+    // classifier(list);
+    
     // Fecha o arquivo
     fclose(file);
     

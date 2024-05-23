@@ -102,10 +102,24 @@ void freePair(Pair* pair) {
 }
 
 void printPair(Pair* pair, bool detailed){
-    if(detailed == false) printf("('%c', %d)", *(char*)pair->first, *(int*)pair->second);
+    // if(((Pair*)pair->first)->first != NULL) printPair(pair->first, false);
+
+    if(detailed == false){
+        printf("('");
+        if(((Pair*)pair->first)->first != NULL) printf("%c%c", *(char*)((Pair*)pair->first)->first, *(char*)((Pair*)pair->first)->second);
+        else printf("%c", *(char*)pair->first);
+        printf("', %d)", *(int*)pair->second);
+    }
+
+    // if(detailed == false) printf("('%c', %d)", *(char*)pair->first, *(int*)pair->second);
     else {
-        printf("\n1: \t\t'%c'", *(char*)pair->first);
-        printf("\n2: \t\t%d", *(int*)pair->second);
+        printf("\n\n1: \t\t");
+        if(((Pair*)pair->first)->first != NULL) printf("%c%c", *(char*)((Pair*)pair->first)->first, *(char*)((Pair*)pair->first)->second);
+        else printf("'%c'", *(char*)pair->first);
+        
+        printf("\n2: \t\t");
+        if(((Pair*)pair->second)->first != NULL) printf("%c%c", *(char*)((Pair*)pair->second)->first, *(char*)((Pair*)pair->second)->second);
+        else printf("%d", *(int*)pair->second);
         
         printf("\nNext: \t\t");
         printf("%d", getNodeIndex(pair->next));
