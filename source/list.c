@@ -135,8 +135,7 @@ void printList(List* list, bool detailed){
     Node* node = list->start;
     for(node; node != NULL && node->next != node; node = node->next){
         if(detailed == true) printNode(node);
-        printf("\n");
+        printf("\n%d: ", node->index);
         printPair(node->data, detailed);
-        printf(", ");
     }
 }

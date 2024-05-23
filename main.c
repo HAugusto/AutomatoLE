@@ -2,14 +2,19 @@
 #include <stdio.h>
 #include <locale.h>
 #include "headers/readfile.h"
+#include "headers/list.h"
 
 #define BLOCK 2
 
 int main(){
+    // Define a linguagem para Português do Brasil
     setlocale(LC_ALL, ("Portuguese"));
+
     char filename[] = "text/filename.txt";
-    readfile(filename);
+    List* list = readfile(filename);
     
+    
+
     // char data;
     // int position;
 
