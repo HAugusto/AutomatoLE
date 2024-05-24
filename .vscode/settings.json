@@ -12,6 +12,11 @@
         "data.h": "c",
         "pair.h": "c",
         "string": "c",
-        "node.h": "c"
+        "node.h": "c",
+        "cstdio": "cpp",
+        "fstream": "cpp",
+        "string.h": "c",
+        "classification.h": "c",
+        "state.h": "c"
     }
 }
