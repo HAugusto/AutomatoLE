@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "../headers/tokens.h"
 #include "../headers/list.h"
+#include "../headers/data_type.h"
 #include "../headers/data.h"
 #include "../headers/state.h"
 

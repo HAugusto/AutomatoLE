@@ -17,6 +17,7 @@
         "fstream": "cpp",
         "string.h": "c",
         "classification.h": "c",
-        "state.h": "c"
+        "state.h": "c",
+        "tokens.h": "c"
     }
 }

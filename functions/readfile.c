@@ -12,6 +12,8 @@
 #include "../headers/tokens.h"
 #include "../headers/state.h"
 
+#include "state_creator.c"
+
 #include "clearBuffer.c"
 #include "classifier.c"
 #include "readfile_function.c"
@@ -75,7 +77,7 @@ List* readfile(char *filename){
         
         // Se o caracter for encontrado nos tokens e for o caracter 'q'
         State* state;
-        if(character == tokens[4]) state = createState(file, i);
+        if(character == tokens[4]) state = StateCreator(file, character, i);
 
         // Data* state = createData(createPair(createData(combined, STRING), createData(&start_position, INT)), STATE);
         printf("Aqui: %c", ((Data*)state->data)->data);

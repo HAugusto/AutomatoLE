@@ -62,7 +62,7 @@ State* createState(FILE* file, char character, int i){
     for(int l = 0; value[l] != '\0'; l++) combined[l] = value[l];
     combined[value_len] = '\0';
 
-    State* state = createState(createData(createPair(createData(combined, STRING), createData(&start_position, INT)), STATE), i);
+    State* state = defaultStateCreator(createPair(createData(combined, STRING), createData(start_position, INT)), createData(i, INT));
     if(state->data != NULL) return state;
     
     return NULL;

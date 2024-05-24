@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include <string.h>
 #include "../headers/data.h"
+#include "../headers/data_type.h"
 
 Data* defaultData(){
     Data* data = (Data*)malloc(sizeof(Data));
@@ -19,7 +20,7 @@ Data* defaultData(){
     return data;
 }
 
-Data* createData(void* data, DataTypeEnum type){
+Data* createData(void* data, DataType type){
     Data* newData = (Data*)malloc(sizeof(Data));
 
     if(newData == NULL){
@@ -70,68 +71,22 @@ Data* stringData(char* data){
 
 // Getters
 Data* getData(Data* data){
-    if(data->data != NULL) return data;
+    if(data->data != NULL && data->data != NULL) return data->data;
     return NULL;
 }
 
 int getSize(Data* data){
-    if(data != NULL) return data->size;
-    return 0;
+    if(data != NULL && data->size != NULL) return data->size;
+    return -1;
+}
+
+size_t getType(Data* data){
+    if(data != NULL && data->type != NULL) return data->type;
+    return -1;
 }
 
 // Função para obter o nome do tipo
-char* getDataTypeName(DataTypeEnum type) {
-    switch (type) {
-        case INT:
-            return "int";
-        case FLOAT:
-            return "float";
-        case DOUBLE:
-            return "double";
-        case CHAR:
-            return "char";
-        case STRING:
-            return "string";
-        case NONE:
-            return "none";
-        default:
-            return "unknown";
-    }
-}
-
-size_t getDataTypeSize(DataTypeEnum type){
-    switch (type){
-    case INT:
-        return sizeof(int);
-    
-    case FLOAT:
-        return sizeof(float);
-    
-    case DOUBLE:
-        return sizeof(double);
-    
-    case CHAR:
-        return sizeof(char);
-    
-    case STRING:
-        return sizeof(char*);
-        
-    default:
-        return 0;
-    }
-}
-
-// Libera a memória com o dado e a estrutura em que foi alocada
-void freeData(Data* data){
-    if(data->data != NULL){
-        free(data->data);
-        data->data = NULL;
-    }
-    free(data);
-}
-
-// Função para obter o nome do tipo
-void printDataByType(Data* data, DataTypeEnum type) {
+void printDataByType(Data* data, DataType type) {
     printf("\t(");
     switch (type) {
         case INT:
@@ -169,4 +124,13 @@ void printData(Data* data){
     
     printf("\nType: \t%d", data->type);
     printf("\nSize: \t%d", data->size);
+}
+
+// Libera a memória com o dado e a estrutura em que foi alocada
+void freeData(Data* data){
+    if(data->data != NULL){
+        free(data->data);
+        data->data = NULL;
+    }
+    free(data);
 }
