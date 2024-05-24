@@ -1,6 +1,3 @@
-#ifndef CLASSIFICATION_H
-#define CLASSIFICATION_H
-
 #include "../headers/classification.h"
 #include <string.h>
 #include <stdio.h>
@@ -99,5 +96,3 @@ void print_classifications(Classifications* classifications) {
         printf("  %s at %d\n", (char*)classifications->final_states[i].first, (int)classifications->final_states[i].second);
     }
 }
-
-#endif /* CLASSIFICATION_H */

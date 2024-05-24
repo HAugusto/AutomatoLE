@@ -16,8 +16,6 @@ Node* defaultNode(){
     node->previous = node->next = NULL;
     node->data = NULL;
     node->index = 0;
-
-    // node->getIndex = getIndex;
     
     return node;
 }
@@ -66,7 +64,9 @@ void freeNode(Node* node){
 void printNode(Node* node){
     printf("\n\nID:\t\t%d", node->index);
     printf("\nData:\t\t");
-    printPair(node->data, false);
+
+    if(getFirstData((Pair*)node->data) != NULL) printf("('%c', %d)", ((Data*)(getFirstData(node->data)->data)), ((Data*)(getSecondData(node->data)->data)));
+    else printPair(node->data, false);
     
     printf("\nPrevious:\t");
     if(node->previous){

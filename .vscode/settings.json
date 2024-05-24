@@ -2,6 +2,16 @@
     "files.associations": {
         "stddef.h": "c",
         "stdbool.h": "c",
-        "list.h": "c"
+        "list.h": "c",
+        "system_error": "c",
+        "array": "c",
+        "functional": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c",
+        "data.h": "c",
+        "pair.h": "c",
+        "string": "c",
+        "node.h": "c"
     }
 }

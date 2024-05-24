@@ -4,6 +4,7 @@
 #include "../headers/list.h"
 #include "../headers/node.h"
 #include "../headers/pair.h"
+#include "../headers/data.h"
 
 #define MAX_LENGTH 9999
 
@@ -97,13 +98,22 @@ Node* getListPosition(List* list, int position){
     return current;
 }
 
-Node* getListNode(List* list, Node* node){  
+Node* getListNode(List* list, Node* node){
+    // Inicializa um nó no início da lista
     Node* current = list->start;
-    for(current; current->index < getLength(list); current = current->next) if(*(char*)((Pair*)current->data)->first == *(char*)((Pair*)node->data)->first && *(int*)((Pair*)current->data)->second == *(int*)((Pair*)node->data)->second) return current;
+
+    // Procura o nó correspondente a partir do ponte de referência
+    for(current; current->index < getLength(list); current = current->next){
+        if((Data*)getFirstData(current->data)->data == (Data*)getFirstData(node->data)->data && (Data*)getSecondData(node->data)->data == (Data*)getSecondData(node->data)->data);
+        return current;
+    }
+
+    // Se não encontrar um correspondente, retorna nulo
     return NULL;
 }
 
 int getLength(List* list){
+    // Retorna a variável 'count_nodes'
     return list->count_nodes;
 }
 
@@ -125,17 +135,27 @@ void freeList(List* list){
 }
 
 void printList(List* list, bool detailed){
+    // Verifica se a lista está vazia
     if(getIsEmpty(list)){
         printf("Erro: a lista está vazia...");
+
+        // Se estiver vazia, retorna falha
         exit(EXIT_FAILURE);
     }
 
+    // Verifica se está pedindo para detalhar
     if((void*)detailed == NULL) detailed = false;
 
+    // Cria uma instância de node, passando o início da lista
     Node* node = list->start;
+
+    // Inicia um laço 'for', passando por todos os elementos da lista através dos nós
     for(node; node != NULL && node->next != node; node = node->next){
+        // Verifica se o usuário pediu para detalhar, realizando a impressão do nó
         if(detailed == true) printNode(node);
-        printf("\n%d: ", node->index);
+
+        // Realiza a impressão do Par
+        printf("\n\n%d: ", node->index);
         printPair(node->data, detailed);
     }
 }

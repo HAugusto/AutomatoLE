@@ -14,14 +14,14 @@ int main(){
     char filename[] = "text/filename.txt";
     List* list = readfile(filename);
     
-    // Inicializar a estrutura Classifications
-    Classifications classifications = {0};
+    // // Inicializar a estrutura Classifications
+    // Classifications classifications = {0};
 
-    // Classificar as chaves
-    classify_braces(list, &classifications);
+    // // Classificar as chaves
+    // classify_braces(list, &classifications);
 
-    // Imprimir os resultados
-    print_classifications(&classifications);
+    // // Imprimir os resultados
+    // print_classifications(&classifications);
 
     // char data;
     // int position;

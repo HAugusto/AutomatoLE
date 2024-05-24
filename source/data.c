@@ -4,7 +4,22 @@
 #include <string.h>
 #include "../headers/data.h"
 
-Data* defaultData(void* data, DataTypeEnum type){
+Data* defaultData(){
+    Data* data = (Data*)malloc(sizeof(Data));
+
+    if(data == NULL){
+        printf("Erro: não foi possível alocar memória para a criação de um novo dado");
+        return NULL;
+    }
+    
+    data->data = NULL;
+    data->type = NONE;
+    data->size = 0;
+
+    return data;
+}
+
+Data* createData(void* data, DataTypeEnum type){
     Data* newData = (Data*)malloc(sizeof(Data));
 
     if(newData == NULL){
@@ -13,7 +28,7 @@ Data* defaultData(void* data, DataTypeEnum type){
     }
     
     newData->type = type;
-    newData->size = getTypeSize(type);
+    newData->size = getDataTypeSize(type);
     newData->data = malloc(newData->size);
 
     if(newData->data == NULL || data == NULL){
@@ -26,6 +41,9 @@ Data* defaultData(void* data, DataTypeEnum type){
     if(memcmp(newData->data, data, newData->size) == 0) printf("\nA cópia dos dados foi bem-sucedida...");
     else printf("\nOcorreu uma falha durante a cópia dos dados...");
     
+    // printf("\t('%s', %d, %s)", newData->data, newData->size, getDataTypeName(newData->type));
+    printDataByType(newData, type);
+
     return newData;
 }
 
@@ -52,33 +70,8 @@ Data* stringData(char* data){
 
 // Getters
 Data* getData(Data* data){
-    if(data->data != NULL) return data->data;
+    if(data->data != NULL) return data;
     return NULL;
-}
-
-int getIntData(Data* data){
-    if(data != NULL && data->size == sizeof(int)) return *(int*) data->data;
-    return 0;
-}
-
-float getFloatData(Data* data){
-    if(data != NULL && data->size == sizeof(float)) return *(float*) data->data;
-    return 0;
-}
-
-double getDoubleData(Data* data){
-    if(data != NULL && data->size == sizeof(double)) return *(double*) data->data;
-    return 0;
-}
-
-char getCharData(Data* data){
-    if(data != NULL && data->size == sizeof(char)) return *(char*) data->data;
-    return 0;
-}
-
-char getStringData(Data* data){
-    if(data != NULL && data->size == sizeof(char)) return *(char*) data->data;
-    return 0;
 }
 
 int getSize(Data* data){
@@ -86,7 +79,27 @@ int getSize(Data* data){
     return 0;
 }
 
-size_t getTypeSize(DataTypeEnum type){
+// Função para obter o nome do tipo
+char* getDataTypeName(DataTypeEnum type) {
+    switch (type) {
+        case INT:
+            return "int";
+        case FLOAT:
+            return "float";
+        case DOUBLE:
+            return "double";
+        case CHAR:
+            return "char";
+        case STRING:
+            return "string";
+        case NONE:
+            return "none";
+        default:
+            return "unknown";
+    }
+}
+
+size_t getDataTypeSize(DataTypeEnum type){
     switch (type){
     case INT:
         return sizeof(int);
@@ -101,7 +114,6 @@ size_t getTypeSize(DataTypeEnum type){
         return sizeof(char);
     
     case STRING:
-        printf("%d", sizeof(char*));
         return sizeof(char*);
         
     default:
@@ -116,6 +128,36 @@ void freeData(Data* data){
         data->data = NULL;
     }
     free(data);
+}
+
+// Função para obter o nome do tipo
+void printDataByType(Data* data, DataTypeEnum type) {
+    printf("\t(");
+    switch (type) {
+        case INT:
+            printf("'%d', ", *(int*)data->data);
+            break;
+        case FLOAT:
+            printf("'%f', ", *(float*)data->data);
+            break;
+        case DOUBLE:
+            printf("'%ld', ", *(long int*)data->data);
+            break;
+        case CHAR:
+            printf("'%c', ", *(char*)data->data);
+            break;
+        case STRING:
+            printf("'%s', ", (char*)data->data);
+            break;
+        case NONE:
+            printf("NULL");
+            break;
+        default:
+            printf("UNKNOW");
+            break;
+    }
+
+    printf("%d, %s)", data->size, getDataTypeName(data->type));
 }
 
 void printData(Data* data){

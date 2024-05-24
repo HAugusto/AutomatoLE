@@ -8,7 +8,13 @@ typedef enum DataTypeEnum{
     FLOAT,
     DOUBLE,
     CHAR,
-    STRING
+    STRING,
+    START,
+    FINAL,
+    STATE,
+    TRANSITION,
+    ALPHABET,
+    NONE,
 } DataTypeEnum;
 
 typedef struct Data {
@@ -17,7 +23,8 @@ typedef struct Data {
     DataTypeEnum    type;
 } Data;
 
-Data*   defaultData     (void* data, DataTypeEnum type);
+Data*   defaultData     ();
+Data*   createData      (void* data, DataTypeEnum type);
 Data*   intData         (int* data);
 Data*   floatData       (float* data);
 Data*   doubleData      (double* data);
@@ -30,8 +37,10 @@ double  getDoubleData   (Data* data);
 char    getCharData     (Data* data);
 char    getStringData   (Data* data);
 int     getSize         (Data* data);
-size_t  getTypeSize     (DataTypeEnum type);
+char*   getDataTypeName (DataTypeEnum type);
+size_t  getDataTypeSize (DataTypeEnum type);
 void    freeData        (Data* data);
+void    printDataByType (Data* data, DataTypeEnum type);
 void    printData       (Data* data);
 
 #endif /* Data */
