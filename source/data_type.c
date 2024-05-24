@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+
 #include "../headers/data_type.h"
 
 // Função para obter o nome do tipo

@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+
+#include "../headers/data_type.h"
 #include "../headers/pair.h"
 #include "../headers/data.h"
 #include "../headers/node.h"
@@ -41,8 +43,8 @@ Pair* defaultCreator(char data, int position){
     *x = data;
     *y = position;
 
-    Data* data1 = charData(x);
-    Data* data2 = intData(y);
+    Data* data1 = createData(x, CHAR);
+    Data* data2 = createData(y, INT);
 
     return createPair(x, y);
 }

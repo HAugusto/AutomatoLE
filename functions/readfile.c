@@ -5,17 +5,17 @@
 #include <stddef.h>
 #include <string.h>
 
-#include "../headers/list.h"
+#include "../headers/tokens.h"
+#include "../headers/data_type.h"
+#include "../headers/data.h"
 #include "../headers/pair.h"
 #include "../headers/node.h"
-#include "../headers/data.h"
-#include "../headers/tokens.h"
+#include "../headers/list.h"
 #include "../headers/state.h"
 
 #include "state_creator.c"
 
 #include "clearBuffer.c"
-#include "classifier.c"
 #include "readfile_function.c"
 
 /*
@@ -76,11 +76,17 @@ List* readfile(char *filename){
         }      
         
         // Se o caracter for encontrado nos tokens e for o caracter 'q'
-        State* state;
-        if(character == tokens[4]) state = StateCreator(file, character, i);
+        State* state = defaultState();
+        Pair* pair = defaultPair();
+        
+        if(character == tokens[4]){
+            pair = StateCreator(file, character, i);
+            i = *(int*)((Data*)pair->second)->data;
+            printf("%d", i);
+        }
 
         // Data* state = createData(createPair(createData(combined, STRING), createData(&start_position, INT)), STATE);
-        printf("Aqui: %c", ((Data*)state->data)->data);
+        // printf("Aqui: %c", ((Data*)state->data)->data);
     }
 
     // Libera memória da lista temporária

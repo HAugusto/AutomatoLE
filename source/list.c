@@ -23,7 +23,7 @@ List* defaultList(){
     return list;
 }
 
-Node* pushList(List* list, void* data){
+Node* pushList(List* list, void* data, DataType type){
     // Verifica se a lista atingiu o limite máximo
     if(list->count_nodes > MAX_LENGTH){
         printf("Erro: não é possível inserir mais itens na lista");
@@ -34,7 +34,7 @@ Node* pushList(List* list, void* data){
     Node* node = defaultNode();
 
     // Atribuição de valores
-    node->data = data;
+    node->data = createData(data, type);
 
     // Verifica se não há um elemento inicial já na lista
     if(list->start == NULL){

@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <string.h>
-#include "../headers/data.h"
+
 #include "../headers/data_type.h"
+#include "../headers/data.h"
 
 Data* defaultData(){
     Data* data = (Data*)malloc(sizeof(Data));
@@ -21,12 +22,7 @@ Data* defaultData(){
 }
 
 Data* createData(void* data, DataType type){
-    Data* newData = (Data*)malloc(sizeof(Data));
-
-    if(newData == NULL){
-        printf("Erro: não foi possível alocar memória para a criação de um novo dado");
-        return NULL;
-    }
+    Data* newData = defaultData();
     
     newData->type = type;
     newData->size = getDataTypeSize(type);
@@ -43,30 +39,9 @@ Data* createData(void* data, DataType type){
     else printf("\nOcorreu uma falha durante a cópia dos dados...");
     
     // printf("\t('%s', %d, %s)", newData->data, newData->size, getDataTypeName(newData->type));
-    printDataByType(newData, type);
+    printData(newData);
 
     return newData;
-}
-
-Data* intData(int* data){
-    return defaultData(data, INT);
-}
-
-Data* floatData(float* data){
-    return defaultData(data, FLOAT);
-}
-
-Data* doubleData(double* data){
-    return defaultData(data, DOUBLE);
-}
-
-Data* charData(char* data){
-    return defaultData(data, CHAR);
-}
-
-Data* stringData(char* data){
-    size_t size = strlen(data) + 1;
-    return defaultData(data, STRING);
 }
 
 // Getters
@@ -75,20 +50,20 @@ Data* getData(Data* data){
     return NULL;
 }
 
-int getSize(Data* data){
-    if(data != NULL && data->size != NULL) return data->size;
+size_t getSize(Data* data){
+    if(data != NULL) return data->size;
     return -1;
 }
 
-size_t getType(Data* data){
-    if(data != NULL && data->type != NULL) return data->type;
+DataType getType(Data* data){
+    if(data != NULL) return data->type;
     return -1;
 }
 
 // Função para obter o nome do tipo
-void printDataByType(Data* data, DataType type) {
+void printData(Data* data) {
     printf("\t(");
-    switch (type) {
+    switch (data->type) {
         case INT:
             printf("'%d', ", *(int*)data->data);
             break;
@@ -96,7 +71,7 @@ void printDataByType(Data* data, DataType type) {
             printf("'%f', ", *(float*)data->data);
             break;
         case DOUBLE:
-            printf("'%ld', ", *(long int*)data->data);
+            printf("'%lf', ", *(long int*)data->data);
             break;
         case CHAR:
             printf("'%c', ", *(char*)data->data);
@@ -113,17 +88,6 @@ void printDataByType(Data* data, DataType type) {
     }
 
     printf("%d, %s)", data->size, getDataTypeName(data->type));
-}
-
-void printData(Data* data){
-    if(data->size == sizeof(int)) printf("\nData: \t%d\n", *(int*)data->data);
-    else if(data->size == sizeof(float)) printf("\nData: \t%f\n", *(float*)data->data);
-    else if(data->size == sizeof(double)) printf("\nData: \t%f\n", *(double*)data->data);
-    else if(data->size == sizeof(char)) printf("\nData: \t%c\n", *(char*)data->data);
-    else printf("\nData: \t%s", (char*)data->data);
-    
-    printf("\nType: \t%d", data->type);
-    printf("\nSize: \t%d", data->size);
 }
 
 // Libera a memória com o dado e a estrutura em que foi alocada
