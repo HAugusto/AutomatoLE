@@ -131,7 +131,7 @@ List* readfile(char *filename){
             printf("ESTOU AQUI > ('%c', %d)\n", ((char*)((Pair*)tempValue->first)->first)[0], ((int*)tempValue->second)[0]);
 
             // Limpa a lista
-            for(int k = 0; k < getLength(temp); k++) popList(temp);
+            for(int k = 0; k < getListLength(temp); k++) popList(temp);
             
             if(character == ','){
                 while(character != EOF){

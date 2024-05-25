@@ -133,7 +133,7 @@ List* readfile(char *filename){
             // printf("\n(%c, %d)", ((char*)((Pair*)tempValue->first)->first)[0], *(int*)tempValue->second);
 
             // Limpa a lista
-            for(int k = 0; k < getLength(temp); k++) popList(temp);
+            for(int k = 0; k < getListLength(temp); k++) popList(temp);
             
             if(character == ','){
                 while(character != EOF){

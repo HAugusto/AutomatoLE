@@ -51,15 +51,10 @@ List* readfile(char *filename){
         // Se o caracter for encontrado nos tokens, então realiza a verificação se ele se trata de um '{' ou '}', para controle
         if(character == tokens[0] || character == tokens[1] || character == tokens[2] || character == tokens[3] || character == tokens[5]){
             // Cria um par inicial para armazenar o caracter com sua devida posição, inserindo-o na lista
-            Data* data1 = createData(&character, CHAR);
-            Data* data2 = createData(&i, INT);
+            pushList(list, createData(createPair(createData(&character, CHAR), createData(&i, INT)), PAIR));
 
-            Pair* pair = createPair(data1, data2);
-
-            pushList(list, pair);
-            
             // token[0] = '{' e token[2] = '('
-            if(character == tokens[0] || character == tokens[2]) pushList(tempList, createPair(createData(&character, CHAR), createData(&i, INT)));
+            if(character == tokens[0] || character == tokens[2]) pushList(tempList, createData(createPair(createData(&character, CHAR), createData(&i, INT)), PAIR));
             
             // token[1] = '}' e token[3] = ')'11
             if(character == tokens[1] || character == tokens[3]){
@@ -79,11 +74,11 @@ List* readfile(char *filename){
         State* state = defaultState();
         Pair* pair = defaultPair();
         
-        if(character == tokens[4]){
-            pair = StateCreator(file, character, i);
-            i = *(int*)((Data*)pair->second)->data;
-            printf("%d", i);
-        }
+        // if(character == tokens[4]){
+        //     pair = StateCreator(file, character, i);
+        //     i = *(int*)((Data*)pair->second)->data;
+        //     printf("%d", i);
+        // }
 
         // Data* state = createData(createPair(createData(combined, STRING), createData(&start_position, INT)), STATE);
         // printf("Aqui: %c", ((Data*)state->data)->data);

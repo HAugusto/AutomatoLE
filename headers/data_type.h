@@ -9,11 +9,11 @@ typedef enum DataType{
     DOUBLE,
     CHAR,
     STRING,
-    START,
-    FINAL,
+    
+    DATA,
+    PAIR,
     STATE,
-    TRANSITION,
-    ALPHABET,
+    
     NONE,
 } DataType;
 

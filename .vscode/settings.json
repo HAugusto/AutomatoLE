@@ -18,6 +18,7 @@
         "string.h": "c",
         "classification.h": "c",
         "state.h": "c",
-        "tokens.h": "c"
+        "tokens.h": "c",
+        "data_type.h": "c"
     }
 }

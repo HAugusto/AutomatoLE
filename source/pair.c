@@ -22,7 +22,7 @@ Pair* defaultPair(){
     return pair;
 }
 
-Pair* createPair(void* first, void* second){
+Pair* createPair(Data* first, Data* second){
     Pair* pair = (Pair*)malloc(sizeof(Pair));
 
     if(pair == NULL){
@@ -36,27 +36,14 @@ Pair* createPair(void* first, void* second){
     return pair;
 }
 
-Pair* defaultCreator(char data, int position){
-    char* x = malloc(sizeof(char));
-    int* y = malloc(sizeof(int));
-    
-    *x = data;
-    *y = position;
-
-    Data* data1 = createData(x, CHAR);
-    Data* data2 = createData(y, INT);
-
-    return createPair(x, y);
-}
-
 // Getters
 Data* getFirstData(Pair* pair){
-    if(pair->first != NULL) return pair->first;
+    if(pair->first != NULL) return (Data*)pair->first;
     return NULL;
 }
 
 Data* getSecondData(Pair* pair){
-    if(pair->second != NULL) return pair->second;
+    if(pair->second != NULL) return (Data*)pair->second;
     return NULL;
 }
 
@@ -103,7 +90,7 @@ void freePair(Pair* pair) {
     free(pair);
 }
 
-void printPair(Pair* pair, bool detailed){
+void printPair(Pair* pair){
     // Verifica se o par possui uma instância de Data
     // if(((Data*)pair->first)->data != NULL) printf("Nó aqui");
 
@@ -115,7 +102,7 @@ void printPair(Pair* pair, bool detailed){
         // if((Data*)getFirstData(pair)->data != NULL && getSecondData(pair)->)
 
         if((Data*)(getFirstData(pair)->data) != NULL) printf("'%s'", ((Data*)(getFirstData(pair)->data)));
-        else if((Pair*)getFirstData(pair)) printPair((Pair*)getFirstData(pair), detailed);
+        else if((Pair*)getFirstData(pair)) printPair((Pair*)getFirstData(pair));
 
 
         // if((Data*)(getFirstData(pair)->data)!= NULL) printf("'%s'", ((Data*)(getFirstData(pair)->data)));
@@ -126,29 +113,6 @@ void printPair(Pair* pair, bool detailed){
         // if((Pair*)(getFirstData(pair))->data != NULL) printf("'%c'", ((Data*)(getSecondData(pair)->data))->data);
         printf("%d", *(int*)((Data*)(getSecondData(pair)->data)));
 
-        printf(")");   
-    }
-
-    // if(detailed == false){
-    //     printf("('");
-
-        
-    //     printf("%c", *(char*)pair->first);
-    //     printf("', %d)", *(int*)pair->second);
-    // }
-
-    // if(detailed == false) printf("('%c', %d)", *(char*)pair->first, *(int*)pair->second);
-    else {
-        printf("\n\n1: \t\t");
-        if(((Pair*)pair->first)->first != NULL) printf("%c%c", *(char*)((Pair*)pair->first)->first, *(char*)((Pair*)pair->first)->second);
-        else printf("'%c'", *(char*)pair->first);
-        
-        printf("\n2: \t\t");
-        if(((Pair*)pair->second)->first != NULL) printf("%c%c", *(char*)((Pair*)pair->second)->first, *(char*)((Pair*)pair->second)->second);
-        else printf("%d", *(int*)pair->second);
-        
-        printf("\nNext: \t\t");
-        printf("%d", getNodeIndex(pair->next));
-        printf("\n============");
+        printf(")");
     }
 }

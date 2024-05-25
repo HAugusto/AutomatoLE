@@ -5,6 +5,7 @@
 
 #include "../headers/data_type.h"
 #include "../headers/data.h"
+#include "../headers/pair.h"
 
 Data* defaultData(){
     Data* data = (Data*)malloc(sizeof(Data));
@@ -38,7 +39,6 @@ Data* createData(void* data, DataType type){
     if(memcmp(newData->data, data, newData->size) == 0) printf("\nA cópia dos dados foi bem-sucedida...");
     else printf("\nOcorreu uma falha durante a cópia dos dados...");
     
-    // printf("\t('%s', %d, %s)", newData->data, newData->size, getDataTypeName(newData->type));
     printData(newData);
 
     return newData;
@@ -46,7 +46,7 @@ Data* createData(void* data, DataType type){
 
 // Getters
 Data* getData(Data* data){
-    if(data->data != NULL && data->data != NULL) return data->data;
+    if(data != NULL) return data->data;
     return NULL;
 }
 
@@ -67,21 +67,36 @@ void printData(Data* data) {
         case INT:
             printf("'%d', ", *(int*)data->data);
             break;
+
         case FLOAT:
             printf("'%f', ", *(float*)data->data);
             break;
+
         case DOUBLE:
             printf("'%lf', ", *(long int*)data->data);
             break;
+
         case CHAR:
             printf("'%c', ", *(char*)data->data);
             break;
+
         case STRING:
             printf("'%s', ", (char*)data->data);
             break;
+        
+        case PAIR:
+            // Coleta o primeiro dado e verifica se é nulo
+            if((getFirstData(data->data)) != NULL) printData(getFirstData(data->data));
+            else break;
+
+            // Coleta o segundo dado e verifica se é nulo
+            if((getSecondData(data->data)) != NULL) printData(getSecondData(data->data));
+            break;
+
         case NONE:
             printf("NULL");
             break;
+
         default:
             printf("UNKNOW");
             break;
