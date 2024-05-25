@@ -180,7 +180,6 @@ void printList(List* list){
         // Realiza a impressão do Par
         printf("\n%d: \t", node->index);
         // printData(createData((Pair*)node->data, PAIR));
-
         printPair((Pair*)node->data);
     }
 }

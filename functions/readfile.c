@@ -13,8 +13,6 @@
 #include "../headers/list.h"
 #include "../headers/state.h"
 
-#include "state_creator.c"
-
 #include "clearBuffer.c"
 #include "readfile_function.c"
 
@@ -73,54 +71,83 @@ List* readfile(char *filename){
         }
         
         if(character == tokens[4]){
-            // Cria uma outra lista temporárias
-            List* temp = defaultList();
+            List* temp = defaultList(); // Cria uma lista temporária usando a função defaultList()
 
-            // Inicializa algumas variáveis temporárias
-            size_t value_len = 0;
-            char value[5] = {};
-            int position = i;
+            size_t value_len = 0; // Inicializa a variável value_len para armazenar o comprimento do valor
+            char value[5] = {}; // Declara um array de caracteres value com tamanho 5 e o inicializa com zeros
+            value[0] = character; // Define o primeiro caractere de value como o caractere atual
+            int pos = i; // Armazena a posição atual em pos
 
-            value[0] = character;
-            // Armazena o início de estado 'q' na lista, através de um par
-            // Pair* state = createPair(createData(&character, CHAR), createData(&i, INT));
+            Pair* pair_state = defaultPair(); // Cria um par default usando a função defaultPair()
 
-            // Cria um par temporário, para ser utilizado posteriormente
-            Pair* pair_state;
-
-            // Coleta o próximo caracter na cadeia de entrada
-            character = fgetc(file);
-
-            // Coleta o próximo caracter e faz as devidas comparações, incrementando no contador 'i'
-            for(int m = 1; character != ',' && character != tokens[1] && character != tokens[3] && character != EOF; i++, m++){
-                // Incrementa 1 na variável 'i', do for principal
+            int m;
+            // Coleta o próximo caractere e faz as devidas comparações, incrementando no contador 'i'
+            for(character = fgetc(file), m = 1; character != ',' && character != tokens[1] && character != tokens[3] && character != EOF; i++, m++){
                 i++;
 
-                // Armazena o caracter atual na variável value, na posição 'm'
-                value[m] = character;
+                // Armazena o caractere
+                pair_state = createPair(createData(&character, CHAR), createData(&i, INT)); // Cria um par com o caractere e sua posição
+                value[m] = character; // Armazena o caractere no array value
 
-                // Armazena o caracter atual no par criado anteriormente
-                // pair_state = createPair(createData(&character, CHAR), createData(&i, INT));
-                // Pair* tempValue = createPair(createPair(getFirstData(state), createData(getFirstData((Pair*)temp->start->data), CHAR)), getSecondData(state));
+                // Adiciona o caractere na lista, com sua posição
+                pushList(temp, pair_state); // Adiciona o par na lista temp
 
-                // Adiciona o par contendo o caracter na lista, com sua devida posição
-                pushList(temp, pair_state);
-
-                // Coleta o próximo caracter da cadeia de entrada
-                character = fgetc(file);
+                // Coleta o próximo caractere da cadeia de entrada
+                character = fgetc(file); // Lê o próximo caractere do arquivo
             }
 
             // Mapeando o tamanho real do vetor
-            for(int l = 0; value[l] != '\0'; l++) value_len++;
+            for(int l = 0; value[l] != '\0'; l++) value_len++; // Calcula o comprimento real de value
 
             // Criando uma variável com base no tamanho real
-            char* combined = (char*)malloc((sizeof(value) + 1));
+            char* combined = (char*)malloc((value_len + 1) * sizeof(char)); // Aloca memória para a string combined
 
             // Copiando os dados para a variável definitiva
-            for(int l = 0; value[l] != '\0'; l++) combined[l] = value[l];
+            for(int l = 0; value[l] != '\0'; l++) combined[l] = value[l]; // Copia os caracteres de value para combined
+            
+            // Verifica se as variáveis não são nulas
+            if(temp->start->data == NULL){ // Verifica se o primeiro dado da lista temp é NULL
+                fprintf(stderr, "Erro ao alocar a memória\n"); // Imprime uma mensagem de erro
+                return NULL; // Retorna NULL
+            }
 
+            Data* newCombined = createData(&combined, STRING); // Cria um novo dado do tipo STRING com a string combined
+
+            // Realiza a cópia do valor
+            Pair* tempValue = createPair(newCombined, createData(&pos, INT)); // Cria um par com newCombined e a posição
+            (char*)(((Data*)tempValue->first->data)->data);
+
+            pushList(list, createPair(newCombined, createData(&pos, INT)));
+            
+            // Limpa a lista
+            for(int k = 0; k < getListLength(temp); k++) popList(temp); // Remove todos os elementos da lista temp
+
+            if(character == ','){ // Verifica se o caractere atual é uma vírgula
+                while(character != EOF){ // Continua enquanto não chegar ao final do arquivo
+                    // Coleta o próximo caractere da cadeia de entrada
+                    i++;
+                    character = fgetc(file); // Lê o próximo caractere do arquivo
+
+                    if(character == tokens[1] || character == tokens[3] || character == tokens[4]) goto start; // Se o caractere for um dos tokens específicos, vai para o label start
+
+                    // Coleta o elemento de transição
+                    if(character != ' '){
+                        printf("\nChar:%c, %d", character, i); // Imprime o caractere e sua posição
+                    }
+
+                    Data* data = createData(&combined, STRING); // Cria um dado do tipo STRING com a string combined
+                    Pair* pair = createPair(data, createData(&character, CHAR)); // Cria um par com data e o caractere
+                    pushList(list, createPair(pair, createData(&i, INT))); // Adiciona o par na lista list
+                }
+            }
+            // Libera a memória alocada
+            free(temp);
+            
+            // Retorna ao ponto de início
+            goto start;
         }
     }
+
     // Libera memória da lista temporária
     freeList(tempList);
     

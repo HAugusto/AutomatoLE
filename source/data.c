@@ -81,7 +81,8 @@ void printData(Data* data) {
             break;
 
         case STRING:
-            printf("'%s', ", (char*)data->data);
+            printf("'%s', ", (char*)(((Data*)data)->data));
+
             break;
         
         case PAIR:

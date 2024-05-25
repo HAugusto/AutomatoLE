@@ -91,27 +91,16 @@ void freePair(Pair* pair) {
 }
 
 void printPair(Pair* pair){
-    // Verifica se o par possui uma instância de Data
-    // if(((Data*)pair->first)->data != NULL) printf("Nó aqui");
-
     // Verifica se o par possui um par interno
-    // if(((Pair*)pair->first)->first != NULL) printPair(pair->first, false);
-
     if(getFirstData(pair) != NULL){
         printf("(");
         
-        // if((Data*)getFirstData(pair)->data != NULL && getSecondData(pair)->)
-
-        if((Data*)((pair->first)) != NULL) printf("'%s'", ((Data*)((pair->first)->data)));
+        // Verifica se o par possui uma instância de Data
+        
+        if((Data*)((pair->first)) != NULL) printf("'%s'", ((Data*)pair->first)->data);
         else if((Pair*)getFirstData(pair)) printPair((Pair*)getFirstData(pair));
-
-
-        // if((Data*)(getFirstData(pair)->data)!= NULL) printf("'%s'", ((Data*)(getFirstData(pair)->data)));
-        // else if((Pair*)getFirstData(pair)) printPair((Pair*)getFirstData(pair), detailed);
         
         printf(", ");
-
-        // if((Pair*)(getFirstData(pair))->data != NULL) printf("'%c'", ((Data*)(getSecondData(pair)->data))->data);
         printf("%d", *(int*)((Data*)(getSecondData(pair)->data)));
 
         printf(")");

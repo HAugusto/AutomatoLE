@@ -16,7 +16,6 @@ typedef struct Pair {
 
 Pair*   defaultPair     ();
 Pair*   createPair      (Data* first, Data* second);
-Pair*   defaultCreator  (char data, int position);
 Data*   getFirstData    (Pair* pair);
 Data*   getSecondData   (Pair* pair);
 int     getPairIndex    (Pair* pair);
