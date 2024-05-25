@@ -8,17 +8,17 @@ typedef struct Pair Pair;
 typedef struct Node {
     struct Node*    previous;
     struct Node*    next;
-    Data*           data;
+    void*           data;
     int             index;
 } Node;
 
 Node*   defaultNode     ();
-Node*   createNode      (void* data, DataType type);
+Node*   createNode      (void* data);
 Node*   getNodePrevious (Node* node);
 Node*   getNodeNext     (Node* node);
-int     getNodeIndex    (Node* node);
 Data*   getNodeData     (Node* node);
-void    freeNode        (Node* node);
+int     getNodeIndex    (Node* node);
 void    printNode       (Node* node);
+void    freeNode        (Node* node);
 
 #endif /* NODE_H */

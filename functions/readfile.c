@@ -51,10 +51,12 @@ List* readfile(char *filename){
         // Se o caracter for encontrado nos tokens, então realiza a verificação se ele se trata de um '{' ou '}', para controle
         if(character == tokens[0] || character == tokens[1] || character == tokens[2] || character == tokens[3] || character == tokens[5]){
             // Cria um par inicial para armazenar o caracter com sua devida posição, inserindo-o na lista
-            pushList(list, createData(createPair(createData(&character, CHAR), createData(&i, INT)), PAIR));
+            Data* data = createPair(createData(&character, CHAR), createData(&i, INT));
 
+            pushList(list, data);
+            
             // token[0] = '{' e token[2] = '('
-            if(character == tokens[0] || character == tokens[2]) pushList(tempList, createData(createPair(createData(&character, CHAR), createData(&i, INT)), PAIR));
+            if(character == tokens[0] || character == tokens[2]) pushList(tempList, data);
             
             // token[1] = '}' e token[3] = ')'11
             if(character == tokens[1] || character == tokens[3]){
@@ -68,22 +70,57 @@ List* readfile(char *filename){
                 // Retira o item da lista temporária
                 popList(tempList);
             }
-        }      
+        }
         
-        // Se o caracter for encontrado nos tokens e for o caracter 'q'
-        State* state = defaultState();
-        Pair* pair = defaultPair();
-        
-        // if(character == tokens[4]){
-        //     pair = StateCreator(file, character, i);
-        //     i = *(int*)((Data*)pair->second)->data;
-        //     printf("%d", i);
-        // }
+        if(character == tokens[4]){
+            // Cria uma outra lista temporárias
+            List* temp = defaultList();
 
-        // Data* state = createData(createPair(createData(combined, STRING), createData(&start_position, INT)), STATE);
-        // printf("Aqui: %c", ((Data*)state->data)->data);
+            // Inicializa algumas variáveis temporárias
+            size_t value_len = 0;
+            char value[5] = {};
+            int position = i;
+
+            value[0] = character;
+            // Armazena o início de estado 'q' na lista, através de um par
+            // Pair* state = createPair(createData(&character, CHAR), createData(&i, INT));
+
+            // Cria um par temporário, para ser utilizado posteriormente
+            Pair* pair_state;
+
+            // Coleta o próximo caracter na cadeia de entrada
+            character = fgetc(file);
+
+            // Coleta o próximo caracter e faz as devidas comparações, incrementando no contador 'i'
+            for(int m = 1; character != ',' && character != tokens[1] && character != tokens[3] && character != EOF; i++, m++){
+                // Incrementa 1 na variável 'i', do for principal
+                i++;
+
+                // Armazena o caracter atual na variável value, na posição 'm'
+                value[m] = character;
+
+                // Armazena o caracter atual no par criado anteriormente
+                // pair_state = createPair(createData(&character, CHAR), createData(&i, INT));
+                // Pair* tempValue = createPair(createPair(getFirstData(state), createData(getFirstData((Pair*)temp->start->data), CHAR)), getSecondData(state));
+
+                // Adiciona o par contendo o caracter na lista, com sua devida posição
+                pushList(temp, pair_state);
+
+                // Coleta o próximo caracter da cadeia de entrada
+                character = fgetc(file);
+            }
+
+            // Mapeando o tamanho real do vetor
+            for(int l = 0; value[l] != '\0'; l++) value_len++;
+
+            // Criando uma variável com base no tamanho real
+            char* combined = (char*)malloc((sizeof(value) + 1));
+
+            // Copiando os dados para a variável definitiva
+            for(int l = 0; value[l] != '\0'; l++) combined[l] = value[l];
+
+        }
     }
-
     // Libera memória da lista temporária
     freeList(tempList);
     
@@ -92,16 +129,13 @@ List* readfile(char *filename){
         printf("\nA formatação do arquivo de entrada está incorreta...");
         exit(EXIT_FAILURE);
     }
-
-    // printNode(getListPosition(list, 5));
-    // printNode(getListNode(list, ((Pair*)getListPosition(list, 5)->data)->next));
-    printList(list, false);
-
-    // classifier(list);
+    
+    // Imprime os elementos da lista
+    printList(list);
     
     // Fecha o arquivo
     fclose(file);
-    
+     
     return list;
     exit(EXIT_SUCCESS);
 }

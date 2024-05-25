@@ -12,14 +12,11 @@ typedef struct List {
     struct Node*    start;
     struct Node*    end;
     int             count_nodes;
-
-    // void (*pushList)(struct List* list, void* data);
-    // void (*printNode)(struct Node*);
 } List;
 
 // Inicializador padrão
 List*   defaultList ();
-Node*   pushList        (List* list, Data* data);
+Node*   pushList        (List* list, void* data);
 Node*   popList         (List* list);
 Node*   getListStart    (List* list);
 Node*   getListEnd      (List* list);
@@ -28,6 +25,6 @@ Node*   getListNode     (List* list, Node* node);
 int     getListLength   (List* list);
 bool    getListIsEmpty  (List* list);
 void    freeList        (List* list);
-void    printList       (List* list, bool detailed);
+void    printList       (List* list);
 
 #endif /* LIST_H */

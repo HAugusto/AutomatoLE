@@ -26,12 +26,12 @@ Node* defaultNode(){
     return node;
 }
 
-Node* createNode(void* data, DataType type){
+Node* createNode(void* data){
     // Chama o construtor padrão
     Node* node = defaultNode();
     
     // Realiza o tratamento e instanciação dos dados pelo tipo 'Data'
-    node->data = createData(data, type);
+    node->data = data;
     
     // Retorna o nó criado
     return node;
@@ -93,9 +93,8 @@ void freeNode(Node* node){
 
 void printNode(Node* node){
     printf("\n\nID:\t\t%d", node->index);
-    printf("\nData:\t\t");
-
-    
+    printf("\nData:\t\t");    
+    // if(getFirstData((Pair*)node->data) != NULL) printf("('%c', %d)", ((Data*)(getFirstData(node->data)->data)), ((Data*)(getSecondData(node->data)->data)));
 
     // if(getFirstData((Pair*)node->data) != NULL) printf("('%c', %d)", ((Data*)(getFirstData(node->data)->data)), ((Data*)(getSecondData(node->data)->data)));
     // else printPair(node->data, false);

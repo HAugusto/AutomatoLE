@@ -86,12 +86,12 @@ void printData(Data* data) {
         
         case PAIR:
             // Coleta o primeiro dado e verifica se é nulo
-            if((getFirstData(data->data)) != NULL) printData(getFirstData(data->data));
-            else break;
+            // if((getFirstData(data->data)) != NULL) printData(data->data);
+            // else break;
 
             // Coleta o segundo dado e verifica se é nulo
-            if((getSecondData(data->data)) != NULL) printData(getSecondData(data->data));
-            break;
+            // if((getSecondData(data->data)) != NULL) printData(getFirstData(data));
+            // break;
 
         case NONE:
             printf("NULL");

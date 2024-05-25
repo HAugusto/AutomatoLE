@@ -96,12 +96,13 @@ void printPair(Pair* pair){
 
     // Verifica se o par possui um par interno
     // if(((Pair*)pair->first)->first != NULL) printPair(pair->first, false);
+
     if(getFirstData(pair) != NULL){
         printf("(");
         
         // if((Data*)getFirstData(pair)->data != NULL && getSecondData(pair)->)
 
-        if((Data*)(getFirstData(pair)->data) != NULL) printf("'%s'", ((Data*)(getFirstData(pair)->data)));
+        if((Data*)((pair->first)) != NULL) printf("'%s'", ((Data*)((pair->first)->data)));
         else if((Pair*)getFirstData(pair)) printPair((Pair*)getFirstData(pair));
 
 

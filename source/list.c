@@ -24,7 +24,7 @@ List* defaultList(){
 }
 
 // Função dedicada a inserir um elemento no final da lista
-Node* pushList(List* list, Data* data){
+Node* pushList(List* list, void* data){
     // Verifica se a lista atingiu o limite máximo
     if(list->count_nodes > MAX_LENGTH){
         printf("Erro: não é possível inserir mais itens na lista");
@@ -101,7 +101,7 @@ Node* popList(List* list){
 Node* getListStart(List* list){
     // Verifica se a lista está vazia, retornando vazio
     if(getListIsEmpty(list)) return NULL;
-
+    
     // Retorna o elemento inicial
     return list->start;
 }
@@ -161,7 +161,7 @@ bool getListIsEmpty(List* list){
     return false;
 }
 
-void printList(List* list, bool detailed){
+void printList(List* list){
     // Verifica se a lista está vazia
     if(getListIsEmpty(list)){
         printf("Erro: a lista está vazia...");
@@ -170,17 +170,18 @@ void printList(List* list, bool detailed){
         exit(EXIT_FAILURE);
     }
 
-    // Verifica se está pedindo para detalhar
-    if((void*)detailed == NULL) detailed = false;
-
     // Cria uma instância de node, passando o início da lista
     Node* node = list->start;
+
+    printf("\n\n");
 
     // Inicia um laço 'for', passando por todos os elementos da lista através dos nós
     for(node; node != NULL && node->next != node; node = node->next){
         // Realiza a impressão do Par
-        printf("\n\n%d: ", node->index);
-        printData(node->data);
+        printf("\n%d: \t", node->index);
+        // printData(createData((Pair*)node->data, PAIR));
+
+        printPair((Pair*)node->data);
     }
 }
 
